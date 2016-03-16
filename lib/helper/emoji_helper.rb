@@ -21,8 +21,9 @@ module RailsEmojiPicker
   def find_emoji(text)
     chars = text.split('')
     chars.each do |c|
-      emoji = c.scan(regex).join('')
-      c.gsub!(regex, emoji_name(Emoji.find_by_unicode(emoji).name)) if emoji.present?
+      emoji     = c.scan(regex).join('')
+      emoji_obj = Emoji.find_by_unicode(emoji) if emoji.present?
+      c.gsub!(regex, emoji_name(emoji_obj.name)) if emoji_obj.present?
     end
     chars.join('')
   end
